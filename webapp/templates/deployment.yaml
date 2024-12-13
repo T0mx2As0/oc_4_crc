@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Chart.name }}deploy"
+  namespace: "{{ .Values.namespace }}"
+  labels:
+    app: "{{ .Chart.name }}-deploy"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.name }}
+    spec:
+      containers: 
+        - name: "{{ .Chart.name }}-pod"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - name: {{ .Values.container.name }}
+              containerPort: {{ .Values.container.port }}
+              protocol: {{ .Values.container.protocol }}
+          resources:
+            requests: 
+              memory: {{ .Values.resources.requests.memory}}
+              cpu: {{ .Values.resources.requests.cpu}}
+            limits: 
+              memory: {{ .Values.resources.limits.memory}}
+              cpu: {{ .Values.resources.limits.cpu}}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.httpget.path }}
+              port: {{ .Values.livenessProbe.httpget.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds}}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.httpget.path }}
+              port: {{ .Values.readinessProbe.httpget.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds}}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
