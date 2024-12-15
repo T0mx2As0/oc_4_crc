@@ -50,11 +50,13 @@ route:
   spec:
     kind: Service
   host: paginatest.local
-#  host: paginatest.<Ingress_Domain>
   path: /
   port:
     targetPort: 8000
 
+tls:
+  termination: edge
+  insecureEdgeTerminationPolicy: Redirect
 
 
 
