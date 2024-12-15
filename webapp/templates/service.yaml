@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Chart.name }}-service"
-  namespace: "{{ .Values.namespace }}"
+  name: "{{ .Release.Name }}-service"
+  namespace: {{ .Values.namespace }}
   labels:
-    app: "{{ .Chart.name }}"
+    app: {{ .Release.Name }}
 spec:
-  type: "{{ .Values.service.type }}"
+  type: {{ .Values.service.type }}
   ports:
-    - port: "{{ .Values.service.port }}"
+    - port: {{ .Values.service.port }}
       targetPort: {{ .Values.container.name }}
       protocol: {{ .Values.container.protocol }}
       name: http
   selector:
-    app: "{{ .Chart.name }}"
+    app: {{ .Release.Name }}
