@@ -1,7 +1,7 @@
 
 replicaCount: 1
 
-namespace: project1
+namespace: ttrivelli
 
 image:
   repository: t0mx2as0/os4exercise
@@ -57,8 +57,6 @@ route:
 tls:
   termination: edge
   insecureEdgeTerminationPolicy: Redirect
-
-
 
 
 

@@ -17,11 +17,12 @@ spec:
     spec:
       containers: 
         - name: "{{ .Release.Name }}-pod"
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: image-registry.openshift-image-registry.svc:5000/ttrivelli/imagestreams:0.1
           ports:
             - name: {{ .Values.container.name }}
               containerPort: {{ .Values.container.port }}
               protocol: {{ .Values.container.protocol }}
+          imagePullPolicy: Always
           resources:
             requests: 
               memory: {{ .Values.resources.requests.memory}}
