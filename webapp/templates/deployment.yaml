@@ -15,13 +15,20 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
-      containers: 
+      volumes:   # Definisci il PVC che vuoi montare sul pod
+        - name: "{{ .Release.Name }}-volume"
+          persistentVolumeClaim:
+            claimName: mypvclaim
+      containers:
         - name: "{{ .Release.Name }}-pod"
           image: image-registry.openshift-image-registry.svc:5000/ttrivelli/imagestreams:0.1
           ports:
             - name: {{ .Values.container.name }}
               containerPort: {{ .Values.container.port }}
               protocol: {{ .Values.container.protocol }}
+          volumeMounts:   # Qui definisci il path all'interno del pod. dove vuoi che sia montato questo volume ?
+            - mountPath: "/app/testpvc"
+              name: "{{ .Release.Name }}-volume"
           imagePullPolicy: Always
           resources:
             requests: 

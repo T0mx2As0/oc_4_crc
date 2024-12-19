@@ -1,17 +1,17 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: imagestreams
-  namespace: "{{ .Values.namespace }}"
+  name: {{ .Values.imagestream.name }}
+  namespace: {{ .Values.namespace }}
 spec:
   lookupPolicy:
-    local: false
+    local: {{ .Values.imagestream.spec.lookupPolicy.local }}
   tags: 
-    - name: "0.1"
+    - name: "{{ .Values.imagestream.spec.tags.name }}"
       from:
-        kind: DockerImage
-        name: t0mx2as0/os4exercise:latest   
+        kind: {{ .Values.imagestream.spec.tags.from.kind }}
+        name: {{ .Values.imagestream.spec.tags.from.name }}
       referencePolicy:
-        type: Source
+        type: {{ .Values.imagestream.spec.tags.referencePolicy.type }}
       importPolicy:
-        scheduled: true
+        scheduled: {{ .Values.imagestream.spec.tags.importPolicy.scheduled }}
